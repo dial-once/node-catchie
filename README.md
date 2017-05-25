@@ -1,4 +1,5 @@
 ## Catchie
+[![CircleCI](https://circleci.com/gh/dial-once/node-catchie.svg?style=svg)](https://circleci.com/gh/dial-once/node-catchie)
 
 Repeats the provided function (sync and async) n times if an error occurs during its execution.
 
@@ -10,6 +11,11 @@ You can set your own logger during the module initialization:
 ```js
 const winston = require('winston');
 const catchie = require('catchie')(new winston.Logger()); // default logger is console
+```
+
+You can also silence the module not letting him log info about retries if you pass the false parameter:
+```js
+const catchie = require('catchie')(new winston.Logger(), false); // 2nd parameter is silence { boolean }
 ```
 
 ### Usage
@@ -41,7 +47,7 @@ catchie.retry(func, 5)
 .catch((e) => {});
 ```
 
-You can see the results of function execution if you use the following properties:
+You can see the results of catchie's work on the last function if you use the following properties:
 ```js
 catchie.successCount; // amount of successful function execution
 catchie.failureCount; // amount of unsuccessful function execution

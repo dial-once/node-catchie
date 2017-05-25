@@ -10,21 +10,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dial-once/catchie.git"
+    "url": "git+https://github.com/dial-once/node-catchie.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dial-once/catchie/issues"
+    "url": "https://github.com/dial-once/node-catchie/issues"
   },
-  "homepage": "https://github.com/dial-once/catchie#readme",
+  "homepage": "https://github.com/dial-once/node-catchie#readme",
   "devDependencies": {
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-plugin-import": "^2.3.0",
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.0.1",
+    "istanbul": "^0.4.5",
     "mocha": "^3.4.2",
     "sinon": "^2.3.1"
   }
