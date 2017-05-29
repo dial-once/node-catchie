@@ -1,20 +1,32 @@
 {
-  "name": "catch-loop",
+  "name": "catchie",
   "version": "0.0.0",
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/.bin/eslint . && node_modules/.bin/_mocha --recursive test",
+    "start": "node src/index.js",
+    "cover": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- test --recursive"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dial-once/catch-loop.git"
+    "url": "git+https://github.com/dial-once/node-catchie.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dial-once/catch-loop/issues"
+    "url": "https://github.com/dial-once/node-catchie/issues"
   },
-  "homepage": "https://github.com/dial-once/catch-loop#readme"
+  "homepage": "https://github.com/dial-once/node-catchie#readme",
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-jsx-a11y": "^5.0.3",
+    "eslint-plugin-react": "^7.0.1",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.4.2",
+    "sinon": "^2.3.1"
+  }
 }
