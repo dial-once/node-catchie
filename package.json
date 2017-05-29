@@ -1,7 +1,7 @@
 {
   "name": "catchie",
-  "version": "0.0.0",
-  "description": "",
+  "version": "1.0.0",
+  "description": "Retries a provided function n times on error",
   "main": "src/index.js",
   "scripts": {
     "test": "node_modules/.bin/eslint . && node_modules/.bin/_mocha --recursive test",
@@ -12,9 +12,8 @@
     "type": "git",
     "url": "git+https://github.com/dial-once/node-catchie.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Dial-Once",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/dial-once/node-catchie/issues"
   },
