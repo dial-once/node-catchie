@@ -4,11 +4,11 @@ const catchie = require('../src/index')();
 
 describe('Repeater module tests', () => {
   before(() => {
-    this.maxRepeat = process.env.MAX_REPEAT;
+    this.maxRetry = process.env.CATCHIE_MAX_RETRY;
   });
 
   after(() => {
-    process.env.MAX_REPEAT = this.maxRepeat;
+    process.env.CATCHIE_MAX_RETRY = this.maxRetry;
   });
 
   it('Should retry the function on error', (done) => {
@@ -180,13 +180,13 @@ describe('Repeater module tests', () => {
   });
 
   it('Should depend on the env var', (done) => {
-    process.env.MAX_REPEAT = 10;
+    process.env.CATCHIE_MAX_RETRY = 10;
     const spy = sinon.spy(sinon.stub().throws());
     try {
-      catchie.retry(spy, process.env.MAX_REPEAT);
+      catchie.retry(spy);
     } catch (e) {
       assert(e instanceof Error);
-      // one original call + 10 times retryed
+      // one original call + 10 times retried
       assert.equal(spy.callCount, catchie.callCount);
       done();
     }

@@ -5,7 +5,7 @@ let defaultLogger = console;
   Consume errors and retry the function execution given times
 
   Supported environment variables:
-  MAX_REPEAT - cap amount of function retry
+  CATCHIE_MAX_RETRY - cap amount of function retry
 **/
 class Catchie {
   /**
@@ -52,7 +52,7 @@ class Catchie {
   **/
   retry(fn, retryCount = 1) {
     this.clear();
-    let timesToRetry = parseInt(retryCount, 10);
+    let timesToRetry = parseInt(retryCount || process.env.CATCHIE_MAX_RETRY, 10);
 
     if (isNaN(timesToRetry)) {
       timesToRetry = 0;
