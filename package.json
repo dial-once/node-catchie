@@ -1,5 +1,5 @@
 {
-  "name": "catchie",
+  "name": "@dialonce/catchie",
   "version": "1.0.0",
   "description": "Retries a provided function n times on error",
   "main": "src/index.js",
@@ -12,6 +12,14 @@
     "type": "git",
     "url": "git+https://github.com/dial-once/node-catchie.git"
   },
+  "keywords": [
+    "error",
+    "catch",
+    "catchie",
+    "retry",
+    "repeat",
+    "repeater"
+  ],
   "author": "Dial-Once",
   "license": "MIT",
   "bugs": {

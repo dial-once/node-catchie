@@ -3,53 +3,62 @@
 
 Repeats the provided function (sync and async) n times if an error occurs during its execution.
 
+```
+npm i -S @dialonce/catchie
+```
 
-### Config
-You can set the ``MAX_REPEAT`` env variable to let ``Catchie`` know how many times you want to repeat the function.
+## Config
 
+### Max Retry
+You can set the ``CATCHIE_MAX_RETRY`` env variable to set the cap amount of retries for ``Catchie``
+
+### Custom Logger
 You can set your own logger during the module initialization:
 ```js
 const winston = require('winston');
-const catchie = require('catchie')(new winston.Logger()); // default logger is console
+const catchie = require('@dialonce/catchie')(new winston.Logger());
+```
+By default, a __console__ will be used as a logger
+
+### Silence
+You can also silence the module and not let it log info about retries if you pass the boolean value:
+```js
+// 2nd parameter is silence { boolean }
+const catchie = require('@dialonce/catchie')(new winston.Logger(), true); 
 ```
 
-You can also silence the module not letting him log info about retries if you pass the false parameter:
+## Usage
+
+### Sync
+Provide a function and amount of retries. If the function throws error, it will be repeated 10 times
+
+If after 10 retries it throws again, the Error will pop out of the function and will not be consumed by catchie.
+
+__That is why you may want to wrap it in try { } catch { }__
 ```js
-const catchie = require('catchie')(new winston.Logger(), false); // 2nd parameter is silence { boolean }
-```
-
-### Usage
-```js
-const catchie = require('catchie')();
-
-//sync
-
-/**
-  Provide a function and amount of retries
-  If the function throws error, it will be repeated 10 times
-  If after 10 repeats it throws again, the Error will pop out of the function
-  and will not be consumed by catchie. That is why you may want to wrap it in try { } catch { }
-**/
+const catchie = require('@dialonce/catchie')();
 catchie.retry(func, 10);
+```
 
-// async
+### Async
+Catchie can also handle a function, returning Promise. If the promise gets rejected, it will be repeated given amount of times
 
-/**
-  Provide a function returning promise
-  If the promise gets rejected, it will be repeated 5 times
-  If after 5 repeats it throws again, the Error will pop out of the function
-  and will not be consumed by catchie
-**/
+If after 5 retries it throws again, the Error will pop out of the function and will not be consumed by catchie.
+```js
 catchie.retry(func, 5)
 .then((result) => {
   // logic
 })
 .catch((e) => {});
 ```
+## Results
+You can see the results of catchie's work on the last function if you use the following properties of module's instance:
 
-You can see the results of catchie's work on the last function if you use the following properties:
-```js
-catchie.successCount; // amount of successful function execution
-catchie.failureCount; // amount of unsuccessful function execution
-catchie.callCount; // sum of successful and unsuccessful execution
-```
+* ``successCount`` - amount of successful function executions
+* ``failureCount`` - amount of unsuccessful function executions
+* ``callCount`` - sum of successful and unsuccessful executions
+
+## Errors
+* @throws if any other type of item but ``function`` was passed into a function
+
+* @throws if after given ``n`` times of function retry, it ends up with an error
