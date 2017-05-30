@@ -4,7 +4,7 @@
 Repeats the provided function (sync and async) n times if an error occurs during its execution.
 
 ```
-npm i -S @dialonce/catchie
+npm i -S catchie
 ```
 
 ## Config
@@ -16,7 +16,7 @@ You can set the ``CATCHIE_MAX_RETRY`` env variable to set the cap amount of retr
 You can set your own logger during the module initialization:
 ```js
 const winston = require('winston');
-const catchie = require('@dialonce/catchie')(new winston.Logger());
+const catchie = require('catchie')(new winston.Logger());
 ```
 By default, a __console__ will be used as a logger
 
@@ -24,7 +24,7 @@ By default, a __console__ will be used as a logger
 You can also silence the module and not let it log info about retries if you pass the boolean value:
 ```js
 // 2nd parameter is silence { boolean }
-const catchie = require('@dialonce/catchie')(new winston.Logger(), true); 
+const catchie = require('catchie')(new winston.Logger(), true); 
 ```
 
 ## Usage
@@ -36,7 +36,7 @@ If after 10 retries it throws again, the Error will pop out of the function and 
 
 __That is why you may want to wrap it in try { } catch { }__
 ```js
-const catchie = require('@dialonce/catchie')();
+const catchie = require('catchie')();
 catchie.retry(func, 10);
 ```
 
