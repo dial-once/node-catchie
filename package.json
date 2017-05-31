@@ -1,6 +1,6 @@
 {
-  "name": "@dialonce/catchie",
-  "version": "1.0.1",
+  "name": "catchie",
+  "version": "1.0.2",
   "description": "Retries a provided function n times on error",
   "main": "src/index.js",
   "scripts": {
