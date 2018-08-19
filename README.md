@@ -1,5 +1,13 @@
-## Catchie
+## node-catchie
+
 [![CircleCI](https://circleci.com/gh/dial-once/node-catchie.svg?style=svg)](https://circleci.com/gh/dial-once/node-catchie)
+[![Sonar](http://proxy.dialonce.net/sonar/api/badges/gate?key=node-node-catchie)](http://sonar.dialonce.net/dashboard?id=node-node-catchie)
+[![Sonar](http://proxy.dialonce.net/sonar/api/badges/measure?key=node-node-catchie&metric=ncloc)](http://sonar.dialonce.net/dashboard?id=node-node-catchie)
+[![Sonar](http://proxy.dialonce.net/sonar/api/badges/measure?key=node-node-catchie&metric=coverage)](http://sonar.dialonce.net/dashboard?id=node-node-catchie)
+[![Sonar](http://proxy.dialonce.net/sonar/api/badges/measure?key=node-node-catchie&metric=code_smells)](http://proxy.dialonce.net/sonar/api/badges/measure?key=node-node-catchie&metric=coverage)
+[![Sonar](http://proxy.dialonce.net/sonar/api/badges/measure?key=node-node-catchie&metric=bugs)](http://sonar.dialonce.net/dashboard?id=node-node-catchie)
+[![Sonar](http://proxy.dialonce.net/sonar/api/badges/measure?key=node-node-catchie&metric=sqale_debt_ratio)](http://sonar.dialonce.net/dashboard?id=node-node-catchie)
+
 
 Repeats the provided function (sync and async) n times if an error occurs during its execution.
 
@@ -24,7 +32,7 @@ By default, a __console__ will be used as a logger
 You can also silence the module and not let it log info about retries if you pass the boolean value:
 ```js
 // 2nd parameter is silence { boolean }
-const catchie = require('catchie')(new winston.Logger(), true); 
+const catchie = require('catchie')(new winston.Logger(), true);
 ```
 
 ## Usage
