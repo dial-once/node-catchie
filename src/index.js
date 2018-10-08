@@ -1,19 +1,19 @@
 let defaultLogger = console;
 
 /**
-  @class Catchie
-  Consume errors and retry the function execution given times
-
-  Supported environment variables:
-  CATCHIE_MAX_RETRY - cap amount of function retry
-**/
+ * @class Catchie
+ * Consume errors and retry the function execution given times
+ *
+ * Supported environment variables:
+ * CATCHIE_MAX_RETRY - cap amount of function retry
+ * */
 class Catchie {
   /**
-    @constructor
-    Construct instance of the module
-    @param logger {Object} - logger instnace
-    @param silent {boolean} - log or not the info about retries
-  **/
+   * @constructor
+   * Construct instance of the module
+   * @param logger {Object} - logger instnace
+   * @param silent {boolean} - log or not the info about retries
+   * */
   constructor(logger, silent) {
     this.logger = logger || defaultLogger;
     this.successCount = 0;
@@ -22,39 +22,39 @@ class Catchie {
   }
 
   /**
-    @function clear
-    Reset the values of successCount and failureCount
-  **/
+   * @function clear
+   * Reset the values of successCount and failureCount
+   * */
   clear() {
     this.successCount = 0;
     this.failureCount = 0;
   }
 
   /**
-    @function callCount
-    Get the total amount of given function calls
-    @return {number} - total amount of function calls
-  **/
+   * @function callCount
+   * Get the total amount of given function calls
+   * @return {number} - total amount of function calls
+   * */
   get callCount() {
     return this.successCount + this.failureCount;
   }
 
   /**
-    @function retry
-    Execute the function given amount of times
-    @param fn { Function } - a function returning value / Promise
-    @retryCount { string|number } - amount of times to repeat a function on error
-    @return
-      { any } - if function is sync
-      { Promise } - if function is async
-    @throws if after the retryCount times of function execution the function still ended up with an error
-    @throws if fn param is not a function
-  **/
+   * @function retry
+   * Execute the function given amount of times
+   * @param fn { Function } - a function returning value / Promise
+   * @retryCount { string|number } - amount of times to repeat a function on error
+   * @return
+   *   { any } - if function is sync
+   *   { Promise } - if function is async
+   * @throws if after the retryCount times of function execution the function still ended up with an error
+   * @throws if fn param is not a function
+   * */
   retry(fn, retryCount = 1) {
     this.clear();
     let timesToRetry = parseInt(retryCount || process.env.CATCHIE_MAX_RETRY, 10);
 
-    if (isNaN(timesToRetry)) {
+    if (Number.isNaN(timesToRetry)) {
       timesToRetry = 0;
     }
 
@@ -84,21 +84,21 @@ class Catchie {
         if (value instanceof Promise) {
           // for promises a plain-old-catch does not work
           return Promise.resolve()
-          .then(() => value)
-          .then((result) => {
-            this.successCount ++;
-            return result;
-          })
-          .catch((e) => {
-            this.failureCount ++;
-            return loopCheck(e, arguments);
-          });
+            .then(() => value)
+            .then((result) => {
+              this.successCount++;
+              return result;
+            })
+            .catch((e) => {
+              this.failureCount++;
+              return loopCheck(e, arguments);
+            });
         }
         // if did not throw -> return either a Promise or an actual value
-        this.successCount ++;
+        this.successCount++;
         return value;
       } catch (e) {
-        this.failureCount ++;
+        this.failureCount++;
         return loopCheck(e, arguments);
       }
     };
@@ -108,11 +108,11 @@ class Catchie {
 }
 
 /**
-  @function
-  @param loggerInstance {object} - instance of a logger to use
-  @param silet {boolean} - log or not log the info about retries
-  @return {Object} - new instance of the module
-**/
+ * @function
+ * @param loggerInstance {object} - instance of a logger to use
+ * @param silet {boolean} - log or not log the info about retries
+ * @return {Object} - new instance of the module
+ * */
 module.exports = (loggerInstance, silent = false) => {
   if (![null, undefined].includes(loggerInstance)) {
     defaultLogger = loggerInstance;
