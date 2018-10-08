@@ -13,7 +13,7 @@ describe('Repeater module tests', () => {
 
   it('Should retry the function on error', (done) => {
     let toThrow = true;
-    const functionToRepeat = function () {
+    const functionToRepeat = () => {
       if (toThrow) {
         toThrow = false;
         throw new Error();
@@ -66,7 +66,7 @@ describe('Repeater module tests', () => {
 
   it('Should not loose args passed to the function during retrys [no promise]', (done) => {
     let toThrow = true;
-    const functionToRepeat = function (arg1, arg2) {
+    const functionToRepeat = (arg1, arg2) => {
       if (toThrow) {
         toThrow = false;
         throw new Error();
@@ -102,17 +102,15 @@ describe('Repeater module tests', () => {
 
   it('Should not loose args passed to the function during retrys [promise]', () => {
     let toThrow = true;
-    const functionToRepeat = function (arg1, arg2) {
-      return new Promise((resolve, reject) => {
-        if (toThrow) {
-          toThrow = false;
-          reject();
-        }
-        assert.equal(arg1, 'Hello');
-        assert.equal(arg2, 'World');
-        resolve(arg1 + arg2);
-      });
-    };
+    const functionToRepeat = (arg1, arg2) => (new Promise((resolve, reject) => {
+      if (toThrow) {
+        toThrow = false;
+        reject();
+      }
+      assert.equal(arg1, 'Hello');
+      assert.equal(arg2, 'World');
+      resolve(arg1 + arg2);
+    }));
     const spy = sinon.spy(functionToRepeat.bind(this, 'Hello', 'World'));
     return catchie.retry(spy).then((result) => {
       assert.equal(spy.callCount, catchie.callCount);
@@ -122,16 +120,15 @@ describe('Repeater module tests', () => {
 
   it('Should not loose args passed to the function during retrys [promise] [arrow function]', () => {
     let toThrow = true;
-    const functionToRepeat = (arg1, arg2) =>
-      (new Promise((resolve, reject) => {
-        if (toThrow) {
-          toThrow = false;
-          reject();
-        }
-        assert.equal(arg1, 'Hello');
-        assert.equal(arg2, 'World');
-        resolve(arg1 + arg2);
-      }));
+    const functionToRepeat = (arg1, arg2) => (new Promise((resolve, reject) => {
+      if (toThrow) {
+        toThrow = false;
+        reject();
+      }
+      assert.equal(arg1, 'Hello');
+      assert.equal(arg2, 'World');
+      resolve(arg1 + arg2);
+    }));
     const spy = sinon.spy(functionToRepeat.bind(this, 'Hello', 'World'));
     return catchie.retry(spy).then((result) => {
       assert.equal(spy.callCount, catchie.callCount);
@@ -140,10 +137,10 @@ describe('Repeater module tests', () => {
   });
 
   it('Should propagate rejection after retries cap reached', () => {
-    const spy = sinon.spy(sinon.stub().returns(Promise.reject('Promise rejected')));
+    const spy = sinon.spy(sinon.stub().returns(Promise.reject(new Error('Promise rejected'))));
     return catchie.retry(spy, 5).catch((e) => {
       assert(e instanceof Error);
-      assert.equal(e.message, 'Promise rejected');
+      assert.equal(e, 'Error: Error: Promise rejected');
       assert.equal(spy.callCount, catchie.callCount);
     });
   });
@@ -240,29 +237,27 @@ describe('Repeater module tests', () => {
 
   it('should not loose context [promise] [rejected]', (done) => {
     const spy = sinon.spy(sinon.stub().returns(Promise.reject()));
-    const badFunction = () =>
-      (new Promise((resolve) => {
-        setTimeout(() => resolve(spy()), 250);
-      }));
+    const badFunction = () => (new Promise((resolve) => {
+      setTimeout(() => resolve(spy()), 250);
+    }));
     catchie.retry(badFunction, 5)
-    .catch((e) => {
-      assert(e instanceof Error);
-      assert.equal(spy.callCount, catchie.callCount);
-      done();
-    });
+      .catch((e) => {
+        assert(e instanceof Error);
+        assert.equal(spy.callCount, catchie.callCount);
+        done();
+      });
   });
 
   it('should not loose context [promise] [resolved]', (done) => {
     const spy = sinon.spy(sinon.stub().returns(Promise.resolve(15)));
-    const badFunction = () =>
-      (new Promise((resolve) => {
-        setTimeout(() => resolve(spy()), 250);
-      }));
+    const badFunction = () => (new Promise((resolve) => {
+      setTimeout(() => resolve(spy()), 250);
+    }));
     catchie.retry(badFunction, 5)
-    .then((val) => {
-      assert.equal(val, 15);
-      assert.equal(spy.callCount, catchie.callCount);
-      done();
-    });
+      .then((val) => {
+        assert.equal(val, 15);
+        assert.equal(spy.callCount, catchie.callCount);
+        done();
+      });
   });
 });
