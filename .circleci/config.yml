@@ -1,0 +1,27 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/node-catchie
+    docker:
+      - image: circleci/node:8
+      - image: rabbitmq:3.7.7
+    steps:
+      - checkout
+      - run:
+          name: install make
+          command: sudo apt-get update && sudo apt-get -y install gcc make
+      - run:
+          name: Install dependencies
+          command: make deps
+      - run:
+          name: Init project
+          command: make init
+      - run:
+          name: Linting
+          command: make lint
+      - run:
+          name: Testing
+          command: make cover
+      - run:
+          name: Sonar
+          command: sudo make sonar
