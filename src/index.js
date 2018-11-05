@@ -1,5 +1,7 @@
 let defaultLogger = console;
 
+/*  eslint-disable no-use-before-define */
+
 /**
  * @class Catchie
  * Consume errors and retry the function execution given times
@@ -73,7 +75,7 @@ class Catchie {
       if (!this.silent) {
         this.logger.info(`Retrying function due to ${e} error`);
       }
-      return repeatable(...args); // eslint-disable-line
+      return repeatable(...args);
     };
 
     const repeatable = () => {
